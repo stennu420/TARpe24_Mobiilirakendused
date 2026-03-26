@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿
 
 namespace TARpe24_Mobiilirakendused
 {
@@ -7,11 +7,20 @@ namespace TARpe24_Mobiilirakendused
         public App()
         {
             InitializeComponent();
+          
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            var startPage = new StartPage();
+
+            var navPage = new NavigationPage(startPage)
+            {
+                BarBackgroundColor = Colors.Blue,
+                BarTextColor = Colors.White
+            };
+
+            return new Window(navPage);
         }
     }
 }
