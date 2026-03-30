@@ -35,15 +35,16 @@ public partial class Pop_Up_Page : ContentPage
 			Children = { alertListButton, alertYesNoButton, alertListButton }
 		};
 
-		private async void AlertButton_Clicked(object? sender, EventArgs e) 
-		{
-			await DisplayAlertAsync("Teade", "Teil on uus teade", "OK");
+		
+    }
+    private async void AlertButton_Clicked(object? sender, EventArgs e)
+    {
+        await DisplayAlertAsync("Teade", "Teil on uus teade", "OK");
 
-			await DisplayAlertAsync("Teade", "Teie valik on: " + (result ? "Jah" : "Ei"), "OK");
-		}
-		private async void AlertListButton_Clicked(object ? sender, EventArgs e) 
-		{
+        await DisplayAlertAsync("Teade", "Teie valik on: " + (result ? "Jah" : "Ei"), "OK");
+    }
+    private async void AlertListButton_Clicked(object? sender, EventArgs e)
+    {
 
-		}
     }
 }
