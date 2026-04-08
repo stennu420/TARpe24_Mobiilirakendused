@@ -10,6 +10,7 @@ public partial class ValgusfoorPage : ContentPage
 
     VerticalStackLayout vsl;
     Label statusLabel;
+    List<string> buttons = new List<string> { "Tagasi", "Avaleht", "Edasi" };
 
     bool isOn = false;
 

@@ -3,10 +3,82 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TARpe24_Mobiilirakendused.LumememmPage"
              Title="LumememmPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+
+            <!-- Lumememm -->
+            <AbsoluteLayout HeightRequest="450">
+
+                <!-- Alumine pall -->
+                <Frame x:Name="Body"
+                    BackgroundColor="White"
+                    CornerRadius="130"
+                    HeightRequest="180"
+                    WidthRequest="180"
+                    AbsoluteLayout.LayoutBounds="0.5,0.85,180,180"
+                    AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+                <!-- Keskmine pall -->
+                <Frame x:Name="Middle"
+                    BackgroundColor="White"
+                    CornerRadius="100"
+                    HeightRequest="150"
+                    WidthRequest="150"
+                    AbsoluteLayout.LayoutBounds="0.5,0.58,150,150"
+                    AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+                <!-- Pea -->
+                <Frame x:Name="Head"
+                    BackgroundColor="White"
+                    CornerRadius="80"
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    AbsoluteLayout.LayoutBounds="0.5,0.33,120,120"
+                    AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+                <!-- Müts -->
+                <Frame x:Name="Hat"
+                    BackgroundColor="Black"
+                    HeightRequest="50"
+                    WidthRequest="130"
+                    AbsoluteLayout.LayoutBounds="0.5,0.18,130,50"
+                    AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+            </AbsoluteLayout>
+
+            <!-- Picker -->
+            <Picker x:Name="ActionPicker" Title="Vali tegevus">
+                <Picker.Items>
+                    <x:String>Peida</x:String>
+                    <x:String>Näita</x:String>
+                    <x:String>Muuda värvi</x:String>
+                    <x:String>Sulata</x:String>
+                    <x:String>Tantsi</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Button Text="Käivita tegevus"
+                    Clicked="OnActionClicked"/>
+
+            <Label x:Name="ResultLabel"
+                   FontSize="18"
+                   HorizontalOptions="Center"/>
+
+            <!-- Slider -->
+            <Label Text="Läbipaistvus"/>
+            <Slider Minimum="0"
+                    Maximum="1"
+                    Value="1"
+                    ValueChanged="OnSliderChanged"/>
+
+            <!-- Stepper -->
+            <Label Text="Kiirus (ms)"/>
+            <Stepper x:Name="SpeedStepper"
+                     Minimum="100"
+                     Maximum="2000"
+                     Increment="100"
+                     Value="500"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

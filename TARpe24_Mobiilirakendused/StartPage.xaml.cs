@@ -2,8 +2,8 @@ namespace TARpe24_Mobiilirakendused;
 
 public partial class StartPage : ContentPage
 {
-    public List<ContentPage> Lehed = new List<ContentPage>() { new TextPage(), new FigurePage(), new ValgusfoorPage(), new DataTimePage(), new StepperSliderPage(), new SliderRgbPage(), new LumememmPage() };
-    public List<string> LeheNimed = new List<string> { "TextPage", "FigurePage", "ValgusfoorPage", "DateTimePage", "StepperSliderPage", "SliderRgbPage", "Lumememmpage" };
+    public List<ContentPage> Lehed = new List<ContentPage>() { new TextPage(), new Pop_Up_Page(), new FigurePage(), new ValgusfoorPage(), new DataTimePage(), new StepperSliderPage(), new SliderRgbPage(), new LumememmPage() , new Trips_Traps_Trull(), new KontaktPage(),};
+    public List<string> LeheNimed = new List<string> { "TextPage", "Pop_Up_Page","FigurePage", "ValgusfoorPage", "DateTimePage", "StepperSliderPage", "SliderRgbPage", "Lumememmpage" , "Trips-Traps-Trull", "Kontakt"};
 
     ScrollView sv;
     VerticalStackLayout vst;
@@ -32,11 +32,27 @@ public partial class StartPage : ContentPage
                 Navigation.PushAsync(valik);
             };
         }
+
+        Button nulliNupp = new Button
+        {
+            Text = "Nulli seaded (Testsimiseks)",
+            BackgroundColor = Colors.Red,
+            TextColor = Colors.White,
+            CornerRadius = 10,
+            HeightRequest = 50,
+            Margin = new Thickness(0, 30, 0, 0)
+        };
+        nulliNupp.Clicked += async (sender, e) =>
+        {
+            Preferences.Default.Remove("EsimeneKäivitamine");
+            await DisplayAlertAsync("Edukalt nullitud", "Mälu on tühjendatud. Kui sa lehe uuesti avad, käivitub äpp nagu täiesti uus!", "OK");
+        };
+        vst.Add(nulliNupp);
         sv = new ScrollView { Content = vst };
         Content = sv;
-
-      
     }
+
+    
 
     protected override async void OnAppearing() 
     {
@@ -50,6 +66,7 @@ public partial class StartPage : ContentPage
                 "Tundub, et avastasid selle rakenduse esimest korda. Kas soovid näha lühikest juhendit?",
                 "Jah, palun",
                 "Ei, saan ise hakkama");
+
             if (vastus) 
             {
                 await DisplayAlertAsync("Juhend",

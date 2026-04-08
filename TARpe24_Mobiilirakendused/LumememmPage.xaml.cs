@@ -1,218 +1,141 @@
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.PlatformConfiguration.GTKSpecific;
-using BoxView = Microsoft.Maui.Controls.BoxView;
+
+using System.Reflection;
 
 namespace TARpe24_Mobiilirakendused;
 
 public partial class LumememmPage : ContentPage
 {
-    Label valitudTegevus;
-    Label sulamisKiirusLabel;
-
-    BoxView amber;
-
-    BoxView pall1;
-    BoxView pall2;
-    BoxView pall3;
-
-    Picker picker;
-    Button tegevus;
-    Slider heledus;
-    Stepper kiirus;
-
-    uint sulamisKiirus;
+    // genereerimine
     Random rnd = new Random();
-    VerticalStackLayout vsl;
+
+    //lumememme laadimine ekraanile
     public LumememmPage()
     {
-        sulamisKiirusLabel = new Label
-        {
-            Text = "..."
-        };
-        valitudTegevus = new Label
-        {
-            Text = "..."
-        };
-        amber = new BoxView
-        {
-            Color = Color.FromRgb(0, 0, 0),
-            WidthRequest = 30,
-            HeightRequest = 50,
-            HorizontalOptions = LayoutOptions.Center
-        };
-        pall1 = new BoxView
-        {
-            Color = Color.FromRgb(73, 252, 3),
-            WidthRequest = 100,
-            HeightRequest = 100,
-            HorizontalOptions = LayoutOptions.Center,
-            BackgroundColor = Color.FromRgba(0, 0, 0, 0),
-            CornerRadius = 100,
-
-        };
-        pall2 = new BoxView
-        {
-            Color = Color.FromRgb(73, 252, 3),
-            WidthRequest = 150,
-            HeightRequest = 150,
-            HorizontalOptions = LayoutOptions.Center,
-            BackgroundColor = Color.FromRgba(0, 0, 0, 0),
-            CornerRadius = 150,
-
-        };
-        pall3 = new BoxView
-        {
-            Color = Color.FromRgb(73, 252, 3),
-            WidthRequest = 200,
-            HeightRequest = 200,
-            HorizontalOptions = LayoutOptions.Center,
-            BackgroundColor = Color.FromRgba(0, 0, 0, 0),
-            CornerRadius = 200,
-
-        };
-        picker = new Picker { Title = "Vali tegevus" };
-        picker.Items.Add("Peida");
-        picker.Items.Add("Näita");
-        picker.Items.Add("Muuda värvi");
-        picker.Items.Add("Sula");
-        picker.Items.Add("Tantsi");
-
-        tegevus = new Button
-        {
-            Text = "Käivita",
-            FontSize = 28,
-            FontFamily = "Luffio",
-            TextColor = Colors.Black,
-            BackgroundColor = Colors.GreenYellow,
-            CornerRadius = 10,
-            HeightRequest = 50,
-            WidthRequest = 200
-        };
-        tegevus.Clicked += Tegevus;
-
-        heledus = new Slider
-        {
-            Minimum = 0,
-            Maximum = 100,
-            Value = 0,
-            HorizontalOptions = LayoutOptions.Center,
-            MinimumTrackColor = Colors.LightGray,
-            MaximumTrackColor = Colors.DarkGray,
-            ThumbColor = Colors.Gray,
-            WidthRequest = 300,
-        };
-        heledus.ValueChanged += Heledus;
-
-        kiirus = new Stepper
-        {
-            Minimum = 0,
-            Maximum = 180,
-            Increment = 10,
-            Value = 10,
-            HorizontalOptions = LayoutOptions.Center
-        };
-        kiirus.ValueChanged += Kiirus;
-
-
-
-        vsl = new VerticalStackLayout
-        {
-            Padding = 20,
-            Spacing = 0,
-            Children = { valitudTegevus, amber, pall1, pall2, pall3, picker, heledus, kiirus, sulamisKiirusLabel, tegevus },
-            HorizontalOptions = LayoutOptions.Center
-        };
-        Content = vsl;
+        InitializeComponent();
     }
-    private void Kiirus(object? sender, ValueChangedEventArgs e)
+    //lAEB XAML UI
+    private async void OnActionClicked(object sender, EventArgs e)
     {
-        sulamisKiirus = (uint)e.NewValue;
-        sulamisKiirusLabel.Text = "Sulamis kiirus: " + sulamisKiirus;
-    }
+        //Kontrollitakse kas midagi on valitud
+        if (ActionPicker.SelectedItem == null)
+            return;
 
-    private async void Tegevus(object? sender, EventArgs e)
-    {
-        int selectedIndex = picker.SelectedIndex;
-        if (selectedIndex == 0)
-        {
-            amber.Opacity = 0;
-            pall1.Opacity = 0;
-            pall2.Opacity = 0;
-            pall3.Opacity = 0;
-            valitudTegevus.Text = "Peida";
-        }
-        else if (selectedIndex == 1)
-        {
-            amber.IsVisible = true;
-            amber.Opacity = 1;
-            pall1.IsVisible = true;
-            pall1.Opacity = 1;
-            pall2.IsVisible = true;
-            pall2.Opacity = 1;
-            pall3.IsVisible = true;
-            pall3.Opacity = 1;
-            valitudTegevus.Text = "Näita";
-        }
-        else if (selectedIndex == 2)
-        {
-            int r = rnd.Next(256);
-            int g = rnd.Next(256);
-            int b = rnd.Next(256);
-            pall1.Color = Color.FromRgb(r, g, b);
-            pall2.Color = Color.FromRgb(r, g, b);
-            pall3.Color = Color.FromRgb(r, g, b);
-            valitudTegevus.Text = "Muuda värvi";
+        string action = ActionPicker.SelectedItem.ToString();
+        ResultLabel.Text = "Valitud tegevus: " + action;
 
-        }
-        else if (selectedIndex == 3)
+        uint speed = (uint)SpeedStepper.Value;
+
+        switch (action)
         {
-            await SulataAsync();
-            valitudTegevus.Text = "Sula";
-        }
-        else if (selectedIndex == 4)
-        {
-            await AnimateAsync();
+            // peidab kõik lumememme osad
+            case "Peida":
+                Body.IsVisible = false;
+                Middle.IsVisible = false;
+                Head.IsVisible = false;
+                Hat.IsVisible = false;
+                break;
+
+            // teeb kõik nähtavaks
+            case "Näita":
+                Body.IsVisible = true;
+                Middle.IsVisible = true;
+                Head.IsVisible = true;
+                Hat.IsVisible = true;
+
+                // taastab läbipaistvuse
+                Body.Opacity = 1;
+                Middle.Opacity = 1;
+                Head.Opacity = 1;
+                Hat.Opacity = 1;
+                break;
+
+            // küsib kasutajalt kinnitust
+            case "Muuda värvi":
+                bool confirm = await DisplayAlert("Värv",
+                    "Kas muuta lumememme värvi?",
+                    "Jah", "Ei");
+
+                if (confirm)
+                {
+                    // genereerib juhusliku värvi
+                    Color randomColor = Color.FromRgb(
+                        rnd.Next(256),
+                        rnd.Next(256),
+                        rnd.Next(256));
+
+                    // muudab pallide värvi
+                    Body.BackgroundColor = randomColor;
+                    Middle.BackgroundColor = randomColor;
+                    Head.BackgroundColor = randomColor;
+                }
+                break;
+
+            case "Sulata":
+                // teeb väiksemaks
+                await Body.ScaleTo(0.5, speed);
+                await Middle.ScaleTo(0.5, speed);
+                await Head.ScaleTo(0.5, speed);
+                await Hat.ScaleTo(0.5, speed);
+
+                // muudab nähtamatuks (kaob ära)
+                await Body.FadeTo(0, speed);
+                await Middle.FadeTo(0, speed);
+                await Head.FadeTo(0, speed);
+                await Hat.FadeTo(0, speed);
+                break;
+
+            case "Tantsi":
+                for (int i = 0; i < 3; i++)// kordab 3 korda 
+                {
+                    // hüppa üles
+                    await Task.WhenAll(
+                        Body.TranslateTo(0, -40, speed),
+                        Middle.TranslateTo(0, -40, speed),
+                        Head.TranslateTo(0, -40, speed),
+                        Hat.TranslateTo(0, -40, speed)
+                    );
+
+                    // pööra natuke
+                    await Task.WhenAll(
+                        Body.RotateTo(10, speed),
+                        Middle.RotateTo(-10, speed),
+                        Head.RotateTo(10, speed),
+                        Hat.RotateTo(10, speed)
+                    );
+
+                    // hüppa alla
+                    await Task.WhenAll(
+                        Body.TranslateTo(0, 0, speed),
+                        Middle.TranslateTo(0, 0, speed),
+                        Head.TranslateTo(0, 0, speed),
+                        Hat.TranslateTo(0, 0, speed)
+                    );
+
+                    // pööra teisele poole
+                    await Task.WhenAll(
+                        Body.RotateTo(-10, speed),
+                        Middle.RotateTo(10, speed),
+                        Head.RotateTo(-10, speed),
+                        Hat.RotateTo(-10, speed)
+                    );
+                }
+
+                // reset
+                await Task.WhenAll(
+                    Body.RotateTo(0),
+                    Middle.RotateTo(0),
+                    Head.RotateTo(0),
+                    Hat.RotateTo(0)
+                );
+                break;
         }
     }
-    private async Task SulataAsync()
-    {
-        uint speed = sulamisKiirus > 0 ? sulamisKiirus : 500;
-        var parts = new View[] { amber, pall1, pall2, pall3 };
-        for (int i = 0; i < 5; i++)
-        {
-            await Task.WhenAll(parts.Select(p => p.FadeToAsync(p.Opacity - 0.2, speed / 5)));
-            await Task.WhenAll(parts.Select(p => p.ScaleToAsync(p.Scale - 0.04, speed / 5)));
-        }
-        foreach (var part in parts)
-        {
-            part.IsVisible = false;
-            part.Opacity = 1.0;
-            part.Scale = 1.0;
-        }
-    }
-    async Task AnimateAsync()
-    {
-        await Task.WhenAll(
-            amber.TranslateToAsync(40, 0, 250),
-            pall1.TranslateToAsync(40, 0, 250),
-            pall2.TranslateToAsync(40, 0, 250),
-            pall3.TranslateToAsync(40, 0, 250)
-        );
 
-        await Task.WhenAll(
-            amber.TranslateToAsync(0, 0, 250),
-            pall1.TranslateToAsync(0, 0, 250),
-            pall2.TranslateToAsync(0, 0, 250),
-            pall3.TranslateToAsync(0, 0, 250)
-        );
-    }
-    private void Heledus(object? sender, ValueChangedEventArgs e)
+    private void OnSliderChanged(object sender, ValueChangedEventArgs e)
     {
-        double heledus2 = e.NewValue / 100;
-
-        pall1.Opacity = heledus2;
-        pall2.Opacity = heledus2;
-        pall3.Opacity = heledus2;
+        Body.Opacity = e.NewValue;
+        Middle.Opacity = e.NewValue;
+        Head.Opacity = e.NewValue;
+        Hat.Opacity = e.NewValue;
     }
 }

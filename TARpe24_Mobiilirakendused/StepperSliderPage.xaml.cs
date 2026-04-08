@@ -15,10 +15,10 @@ public partial class StepperSliderPage : ContentPage
         };
         stepper = new Stepper
         {
-            Minimum = 0,
-            Maximum = 360,
+            Minimum = 0, //Min v‰‰rtus
+            Maximum = 360, //Max v‰‰rtus
             Increment = 5,
-            Value = 50,
+            Value = 50, //Algv‰‰rtus
             HorizontalOptions = LayoutOptions.Center
         };
         stepper.ValueChanged += Stepper_Slider_ValueChanged;
@@ -35,6 +35,8 @@ public partial class StepperSliderPage : ContentPage
         };
         slider.ValueChanged += Stepper_Slider_ValueChanged;
         al = new AbsoluteLayout { Children = { label, stepper, slider } };
+
+        // Lisab kıik elemendid listi ja paigutab need vertikaalselt
         List<View> controls = new List<View> { label, stepper, slider };
         for (int i = 0; i < controls.Count; i++)
         {
@@ -46,10 +48,15 @@ public partial class StepperSliderPage : ContentPage
     }
     private void Stepper_Slider_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
+        //Kuvab v‰‰rtuse tekstina
         label.Text = $"Stepperi/Slideri v‰‰rtus:{e.NewValue:F0}";
+        //Muudab tektsi suurust 
         label.FontSize = 24 + e.NewValue / 4;
+        //Muudab taustav‰rvi
         label.BackgroundColor = Color.FromRgb((int)(e.NewValue * 2.55), (int)(255 - e.NewValue * 2.55), 128);
+        //Muudab teksti v‰rvi
         label.TextColor = Color.FromRgb((int)(255 - e.NewValue * 2.55), (int)(e.NewValue * 2.55), 128);
+        //Pˆˆrab teksti
         label.Rotation = e.NewValue;
     }
 }

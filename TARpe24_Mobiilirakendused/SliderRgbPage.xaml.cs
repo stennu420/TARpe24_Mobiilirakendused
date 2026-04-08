@@ -2,22 +2,23 @@ namespace TARpe24_Mobiilirakendused;
 
 public partial class SliderRgbPage : ContentPage
 {
-    Label label;
+    Label label; //Peamise värvi kuvamine
     Label labelR;
     Label labelG;
     Label labelB;
-    Stepper stepper;
+
+    Stepper stepper; // Muudab labeli suurust
     Slider slider1;
     Slider slider2;
     Slider slider3;
     Button juhuslik;
     Random rnd = new Random();
-    AbsoluteLayout al;
+    AbsoluteLayout al; //Paigutus elementide jaoks
     public SliderRgbPage()
     {
         label = new Label
         {
-            Text = "",
+            Text = "",  //  kuvatakse Värvi näitamise jaoks
         };
         labelR = new Label
         {
@@ -67,6 +68,7 @@ public partial class SliderRgbPage : ContentPage
             ThumbColor = Colors.Gray,
             WidthRequest = 300,
         };
+        //Muudab värvi
         slider1.ValueChanged += Slider_Color;
         slider2.ValueChanged += Slider_Color;
         slider3.ValueChanged += Slider_Color;
@@ -79,6 +81,7 @@ public partial class SliderRgbPage : ContentPage
             HorizontalOptions = LayoutOptions.Center
         };
         stepper.ValueChanged += Stepper_Size;
+
         juhuslik = new Button
         {
             FontSize = 28,
@@ -104,6 +107,7 @@ public partial class SliderRgbPage : ContentPage
         }
         Content = al;
     }
+    //Muudab värvi vastavalt kastile
     private void Slider_Color(object? sender, ValueChangedEventArgs e)
     {
         double r = slider1.Value / 255.0;
