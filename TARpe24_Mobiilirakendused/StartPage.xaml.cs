@@ -2,8 +2,8 @@ namespace TARpe24_Mobiilirakendused;
 
 public partial class StartPage : ContentPage
 {
-    public List<ContentPage> Lehed = new List<ContentPage>() { new TextPage(), new Pop_Up_Page(), new FigurePage(), new ValgusfoorPage(), new DataTimePage(), new StepperSliderPage(), new SliderRgbPage(), new LumememmPage() , new Trips_Traps_Trull(), new KontaktPage(), new Elemendid_Page()};
-    public List<string> LeheNimed = new List<string> { "TextPage", "Pop_Up_Page","FigurePage", "ValgusfoorPage", "DateTimePage", "StepperSliderPage", "SliderRgbPage", "Lumememmpage" , "Trips-Traps-Trull", "Kontakt", "Elemendid"};
+    public List<ContentPage> Lehed = new List<ContentPage>() { new TextPage(), new Pop_Up_Page(), new FigurePage(), new ValgusfoorPage(), new DataTimePage(), new StepperSliderPage(), new SliderRgbPage(), new LumememmPage() , new Trips_Traps_Trull(), new KontaktPage(), new Elemendid_Page(), new KarussellPage()};
+    public List<string> LeheNimed = new List<string> { "TextPage", "Pop_Up_Page","FigurePage", "ValgusfoorPage", "DateTimePage", "StepperSliderPage", "SliderRgbPage", "Lumememmpage" , "Trips-Traps-Trull", "Kontakt", "Elemendid","KarusellPage"};
 
     ScrollView sv;
     VerticalStackLayout vst;
